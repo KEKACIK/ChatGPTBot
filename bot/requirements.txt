@@ -1,0 +1,6 @@
+openai
+loguru
+pydantic
+aiogram==3.0.0rc1
+sqlalchemy
+asyncpg

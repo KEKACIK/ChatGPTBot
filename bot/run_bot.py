@@ -2,6 +2,7 @@ from loguru import logger
 
 import misc
 from bot.handler import main_router
+from db.init_db import init_db
 
 
 def setup():
@@ -10,6 +11,12 @@ def setup():
 
 async def on_startup():
     setup()
+
+    try:
+        await init_db()
+    except ConnectionRefusedError:
+        logger.error("Failed to connect to db")
+        exit(0)
 
     logger.info("Bot started")
 

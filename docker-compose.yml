@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  bot:
+    build:
+      context: ./bot
+      dockerfile: bot.dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: on-failure
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DBNAME}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "9999:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.com
+      PGADMIN_DEFAULT_PASSWORD: test
+    depends_on:
+      - db
